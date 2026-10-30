@@ -88,4 +88,4 @@ O que observar:
 - cada chamada é um **POST HTTP** com `Content-Type: application/json` e o envelope JSON-RPC no corpo;
 - a resposta é sempre **HTTP 200**: o erro de aplicação vai no campo `error` do corpo, e não no status HTTP. Essa é uma diferença importante em relação ao REST;
 - o `id` do request se repete na resposta;
-- o cliente usa uma sessão HTTP (keep-alive), então várias chamadas passam na mesma conexão TCP.
+- cada chamada abre a **própria conexão TCP**, com handshake, POST, resposta e FIN: o `http.server` responde em HTTP/1.0 e fecha a conexão depois de cada resposta. No Modo A, isso aparece como um handshake por operação, o que contrasta com o socket, que tem uma conexão só.

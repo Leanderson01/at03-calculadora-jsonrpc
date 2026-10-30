@@ -27,7 +27,7 @@ class ClienteJSONRPC:  # encapsula o endpoint e o contador de ids
         self.url = url  # endereço do servidor, ex.: http://localhost:5002/
         self.verbose = verbose  # se True, imprime o JSON trafegado
         self.ids = itertools.count(1)  # contador de ids: cada request recebe o próximo número
-        self.sessao = requests.Session()  # reaproveita a conexão TCP entre chamadas (HTTP keep-alive)
+        self.sessao = requests.Session()  # sessão HTTP; o servidor (http.server, HTTP/1.0) fecha a conexão a cada resposta, então cada chamada abre uma conexão TCP nova
 
     def chamar(self, metodo, params):  # faz uma chamada JSON-RPC
         requisicao = {"jsonrpc": "2.0", "method": metodo, "params": params, "id": next(self.ids)}  # monta o envelope do request
